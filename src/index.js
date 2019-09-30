@@ -38,7 +38,26 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let exprArr = expr.match(/.{10}/g);
+    //['0010101010','0000000010','0010111010','0010111010','0000111111','**********',
+    //'0000101111','0000111111','0000101110','0010111010','0000111010']
+    let newExpr = exprArr.map(elem => elem
+        .replace(/11/g, '-')
+        .replace(/10/g, '.')
+        .replace(/\*{10}/g, 'space')
+        .replace(/00/g, ''));
+    // ['....', '.', '.-..', '.-..', '---', 'space', '.--', '---', '.-.', '.-..', '-..']
+    for (let i = 0; i < newExpr.length; i++) {
+        for (key in MORSE_TABLE) {
+            if (key == newExpr[i]) {
+                newExpr[i] = MORSE_TABLE[key];
+            }
+        }
+        if (newExpr[i] == "space") {
+            newExpr[i] = " "
+        }
+    }
+    return newExpr.join('');
 }
 
 module.exports = {
